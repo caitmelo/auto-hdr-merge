@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {handleApi} from '../src/server.js';
-const origin='https://latitude-hdr-studio.caitmelo.chatgpt.site';
+const origin='https://auto-hdr-merge.caitmelo.chatgpt.site';
 const request=(path='/api/ai/enhance',user='user@example.com',payload={image:'data:image/jpeg;base64,/9j/AA=='})=>new Request(origin+path,{method:'POST',headers:{'oai-authenticated-user-email':user,Origin:origin,'Content-Type':'application/json'},body:JSON.stringify(payload)});
 test('AI requires a valid-length authenticated email and reports missing configuration honestly',async()=>{for(const user of ['',`a${'b'.repeat(254)}`]){const r=await handleApi(request('/api/ai/enhance',user),{});assert.equal(r.status,401);assert.deepEqual(await r.json(),{error:'Sign in with ChatGPT to use AI.'});}const r=await handleApi(request(),{});assert.equal(r.status,503);assert.equal((await r.json()).code,'missing_key');});
 test('configuration endpoint never returns the secret',async()=>{const r=await handleApi(new Request(origin+'/api/ai/status',{headers:{'oai-authenticated-user-email':'test@example.com'}}),{OPENAI_API_KEY:'test-private-value'});const body=await r.text();assert.equal(body.includes('test-private-value'),false);assert.equal(JSON.parse(body).configured,true);});

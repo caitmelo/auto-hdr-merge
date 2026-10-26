@@ -12,10 +12,18 @@ Validation: 37 passing tests, including a simulated three-shot Pentax-labelled b
 
 ## Build and test
 
-Run `npm test`, then `npm run build`. No npm dependencies are required. Build emits `dist/server/index.js` for a compatible Worker runtime. The original hosting project binding is omitted: create a new hosting project for this copy. Configure its origin and verified authentication in `src/server.js`; set an OpenAI server secret only if AI finishing is needed. Never expose that secret in browser code.
+Run `npm test`, then `npm run build`. No npm dependencies are required. Build emits `dist/server/index.js` for a compatible Worker runtime. This copy has its own Sites hosting project and origin. Configure `OPENAI_API_KEY` as a server-side secret on this new project to enable AI finishing; secrets from the original app are not transferred. Never expose that secret in browser code.
 
 See `DEVELOPER_HANDOFF.md` and `docs/AI_PROMPT.md` for inherited processing/API details. Original app/repo links in those historical notes describe provenance, not a deployment of this copy. Neither the original repository nor the original live app has been changed.
 
 ## Core functions
 
 `public/engine.mjs` contains the numerical HDR functions. `public/process.worker.mjs` orchestrates RAW decoding and merging; `public/app.js` handles grouping, review and the queue. `public/render.mjs` handles local tone rendering. `src/server.js` handles the optional single GPT Image finish per group. All source files and tests are included.
+
+## Separate hosted app
+
+https://auto-hdr-merge.caitmelo.chatgpt.site
+
+Public source: https://github.com/caitmelo/auto-hdr-merge
+
+RAW processing runs in your browser. The decoder WASM downloads from the pinned libraw-wasm 1.6.0 CDN URL. AI finishing requires sign-in and the separate hosting project’s server secret.

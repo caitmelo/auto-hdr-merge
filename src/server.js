@@ -1,6 +1,6 @@
 const MODEL='gpt-4.1-mini';
 const IMAGE_MODEL='gpt-image-2.5-sunburst';
-const SITE_ORIGIN='https://latitude-hdr-studio.caitmelo.chatgpt.site';
+const SITE_ORIGIN='https://auto-hdr-merge.caitmelo.chatgpt.site';
 const LIMITS={ev:[-2,2],compression:[0,3],saturation:[.9,1.05],shadows:[0,1],warmth:[0,0],tint:[0,0],windowPull:[0,1]};
 const numbers=Object.fromEntries(Object.keys(LIMITS).map(k=>[k,{type:'number'}]));
 const schema={type:'object',properties:{apply:{type:'boolean'},...numbers,explanation:{type:'string'}},required:['apply',...Object.keys(LIMITS),'explanation'],additionalProperties:false};
